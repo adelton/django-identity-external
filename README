@@ -1,0 +1,40 @@
+
+----------------------------------------------------------------------------
+	Django identity.external.RemoteUserAttrMiddleware middleware
+----------------------------------------------------------------------------
+
+Middleware to simplify consumption of external identity information in
+Web projects set up with Django Web framework.
+
+When user is externally authenticated, for example via
+django.contrib.auth.middleware.RemoteUserMiddleware, additional user
+attributes can be provided by the external authentication source.
+
+This middleware will update user's email address, first and last name,
+and group membership in groups prefixed with ext: with information coming
+from environment variables
+
+	REMOTE_USER_EMAIL
+	REMOTE_USER_FIRSTNAME
+	REMOTE_USER_LASTNAME
+	REMOTE_USER_GROUP_N
+	REMOTE_USER_GROUP_1, REMOTE_USER_GROUP_2, ...
+
+Users that are in external group admins (and thus get assigned to group
+ext:admins in Django) will also get the is_staff flag set and thus will be
+able to log in to the admin application.
+
+The ext: prefixed groups have to be already created in Django database for
+the user membership to be updated in them.
+
+In the MIDDLEWARE_CLASSES list, this middleware has to be listed after the
+authenticating middleware, for example
+
+	MIDDLEWARE_CLASSES = (
+	    ...
+	    'django.contrib.auth.middleware.AuthenticationMiddleware',
+	    'django.contrib.auth.middleware.RemoteUserMiddleware',
+	    'identity.external.RemoteUserAttrMiddleware',
+	    ...
+	)
+

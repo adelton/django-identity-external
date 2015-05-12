@@ -19,6 +19,7 @@ from environment variables
 	REMOTE_USER_LASTNAME
 	REMOTE_USER_GROUP_N
 	REMOTE_USER_GROUP_1, REMOTE_USER_GROUP_2, ...
+	REMOTE_USER_GROUPS
 
 Users that are in external group admins (and thus get assigned to group
 ext:admins in Django) will also get the is_staff flag set and thus will be

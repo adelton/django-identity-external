@@ -7,8 +7,9 @@ Middleware to simplify consumption of external identity information in
 Web projects set up with Django Web framework.
 
 When user is externally authenticated, for example via
-django.contrib.auth.middleware.RemoteUserMiddleware, additional user
-attributes can be provided by the external authentication source.
+django.contrib.auth.middleware.RemoteUserMiddleware or
+django.contrib.auth.middleware.PersistentRemoteUserMiddleware, additional
+user attributes can be provided by the external authentication source.
 
 This middleware will update user's email address, first and last name,
 and group membership in groups prefixed with ext: with information coming
@@ -34,7 +35,7 @@ authenticating middleware, for example
 	MIDDLEWARE_CLASSES = (
 	    ...
 	    'django.contrib.auth.middleware.AuthenticationMiddleware',
-	    'django.contrib.auth.middleware.RemoteUserMiddleware',
+	    'django.contrib.auth.middleware.PersistentRemoteUserMiddleware',
 	    'identity.external.RemoteUserAttrMiddleware',
 	    ...
 	)

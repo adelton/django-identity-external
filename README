@@ -29,14 +29,15 @@ able to log in to the admin application.
 The ext: prefixed groups have to be already created in Django database for
 the user membership to be updated in them.
 
-In the MIDDLEWARE_CLASSES list, this middleware has to be listed after the
-authenticating middleware, for example
+In the MIDDLEWARE list (or MIDDLEWARE_CLASSES, on Django 1.9 and older),
+this middleware has to be listed after the authenticating middleware, for
+example
 
-	MIDDLEWARE_CLASSES = (
+	MIDDLEWARE = [
 	    ...
 	    'django.contrib.auth.middleware.AuthenticationMiddleware',
 	    'django.contrib.auth.middleware.PersistentRemoteUserMiddleware',
 	    'identity.external.RemoteUserAttrMiddleware',
 	    ...
-	)
+	]
 

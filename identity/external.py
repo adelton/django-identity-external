@@ -1,5 +1,5 @@
 
-# Copyright 2015 Jan Pazdziora
+# Copyright 2016 Jan Pazdziora
 #
 # Licensed under the Apache License, Version 2.0 (the "License").
 
@@ -7,6 +7,13 @@ from django.contrib.auth import load_backend, BACKEND_SESSION_KEY
 from django.contrib.auth.models import Group
 from django.contrib.auth.backends import RemoteUserBackend
 from django.contrib.auth.middleware import RemoteUserMiddleware
+
+from django.contrib.auth.middleware import PersistentRemoteUserMiddleware
+
+class PersistentRemoteUserMiddlewareVar(PersistentRemoteUserMiddleware):
+	def process_request(self, request):
+		self.header = request.META.get("REMOTE_USER_VAR", "REMOTE_USER")
+		return super(PersistentRemoteUserMiddleware, self).process_request(request)
 
 class RemoteUserAttrMiddleware(RemoteUserMiddleware):
 	group_prefix = 'ext:'
@@ -47,6 +54,8 @@ class RemoteUserAttrMiddleware(RemoteUserMiddleware):
 			user.groups.remove(g.id)
 
 	def process_request(self, request):
+		self.header = request.META.get("REMOTE_USER_VAR", "REMOTE_USER")
+
 		if hasattr(request, 'user') and request.user.is_authenticated() and \
 		   request.META.get(self.header, None) and \
 		   request.user.get_username() == self.clean_username(request.META[self.header], request):

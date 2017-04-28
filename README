@@ -80,3 +80,9 @@ example
 	    ...
 	]
 
+--------
+See also
+
+External authentication for Django projects
+Presentation at EuroPython 2015
+https://www.adelton.com/django/external-authentication-for-django-projects

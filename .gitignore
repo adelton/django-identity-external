@@ -1,0 +1,4 @@
+dist/
+django_identity_external.egg-info/
+*.pyc
+*.pyo

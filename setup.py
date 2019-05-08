@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
 	name = 'django-identity-external',
-	version = '0.5',
+	version = '0.6.1',
 	packages = find_packages(),
 	include_package_data = True,
 	license = 'Apache 2.0 License',
@@ -19,16 +19,18 @@ setup(
 	url = 'https://github.com/adelton/django-identity-external',
 	author = 'Jan Pazdziora',
 	author_email = 'jan.pazdziora@django.adelton.com',
+	install_requires = [
+		'django>=2.0',
+	],
 	classifiers = [
 		'Environment :: Web Environment',
 		'Framework :: Django',
 		# New PersistentRemoteUserMiddleware in Django 1.9
-		'Framework :: Django :: 1.9',
+		'Framework :: Django :: 2.0',
 		'Intended Audience :: Developers',
 		'License :: OSI Approved :: Apache Software License',
 		'Operating System :: OS Independent',
 		'Programming Language :: Python',
-		'Programming Language :: Python :: 2.7',
 		'Programming Language :: Python :: 3',
 		'Programming Language :: Python :: 3.4',
 		'Programming Language :: Python :: 3.5',

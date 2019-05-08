@@ -56,7 +56,7 @@ class RemoteUserAttrMiddleware(RemoteUserMiddleware):
 	def process_request(self, request):
 		self.header = request.META.get("REMOTE_USER_VAR", "REMOTE_USER")
 
-		if hasattr(request, 'user') and request.user.is_authenticated() and \
+		if hasattr(request, 'user') and request.user.is_authenticated and \
 		   request.META.get(self.header, None) and \
 		   request.user.get_username() == self.clean_username(request.META[self.header], request):
 			stored_backend = load_backend(request.session.get(BACKEND_SESSION_KEY, ''))

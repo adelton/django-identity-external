@@ -25,8 +25,7 @@ environment variable. Setting variable ``REMOTE_USER_VAR`` to
 	SetEnv REMOTE_USER_VAR HTTP_X_REMOTE_USER
 
 and enabling ``identity.external.PersistentRemoteUserMiddlewareVar`` in
-``MIDDLEWARE`` (since Django 1.10) or in ``MIDDLEWARE_CLASSES`` (up to
-Django 1.9) list after
+``MIDDLEWARE`` list after
 ``django.contrib.auth.middleware.AuthenticationMiddleware`` like ::
 
 	MIDDLEWARE = [
@@ -70,9 +69,8 @@ will be able to log in to the admin application.
 The ``ext:`` prefixed groups have to be already created in Django database for
 the user membership to be updated in them.
 
-In the ``MIDDLEWARE`` list (or ``MIDDLEWARE_CLASSES``, on Django 1.9 and
-older), this middleware has to be listed after the authenticating middleware,
-for example ::
+In the ``MIDDLEWARE`` list, this middleware has to be listed after the
+authenticating middleware, for example ::
 
 	MIDDLEWARE = [
 	    ...

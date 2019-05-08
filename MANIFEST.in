@@ -1,2 +1,2 @@
-include README LICENSE
+include README.rst LICENSE
 recursive-include identity *.py

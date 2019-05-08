@@ -1,7 +1,7 @@
 import os
 from setuptools import find_packages, setup
 
-with open(os.path.join(os.path.dirname(__file__), 'README')) as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 	README = readme.read()
 
 # allow setup.py to be run from any path
@@ -15,6 +15,7 @@ setup(
 	license = 'Apache 2.0 License',
 	description = 'Django middleware for handling of external identities.',
 	long_description = README,
+	long_description_content_type = 'text/x-rst',
 	url = 'https://github.com/adelton/django-identity-external',
 	author = 'Jan Pazdziora',
 	author_email = 'jan.pazdziora@django.adelton.com',

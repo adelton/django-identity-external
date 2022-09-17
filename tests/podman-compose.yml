@@ -1,0 +1,34 @@
+version: '2.1'
+services:
+    www:
+        build:
+            context: .
+            dockerfile: Dockerfile.httpd
+        ports:
+         - 8080:8080
+    keycloak:
+        image: quay.io/keycloak/keycloak
+        environment:
+          KEYCLOAK_ADMIN: admin
+          KEYCLOAK_ADMIN_PASSWORD: nimda
+        command:
+         - start-dev
+         - --http-port
+         - "8082"
+        ports:
+         - 8082:8082
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile.app
+        ports:
+         - 8081:8081
+    setup:
+        build:
+            context: .
+            dockerfile: Dockerfile.setup
+        command:
+         - http://keycloak:8082
+         - admin
+         - nimda
+         - http://www:8080

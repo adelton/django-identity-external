@@ -1,0 +1,5 @@
+FROM docker.io/library/ubuntu:22.04
+RUN apt update -y && apt install -y curl jq && apt clean
+COPY setup.sh /
+STOPSIGNAL SIGKILL
+ENTRYPOINT [ "/setup.sh" ]

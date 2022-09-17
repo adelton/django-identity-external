@@ -1,0 +1,21 @@
+
+name: Test consuming external identity in Django admin application
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '42 21 * * 0'
+
+jobs:
+  docker-compose-keycloak:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: make build
+      - run: make run
+      - run: sudo apt update && sudo apt install -y libwww-mechanize-perl
+      - run: echo '127.0.0.5 www keycloak' | sudo tee -a /etc/hosts
+      - run: make test
+

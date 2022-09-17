@@ -1,0 +1,7 @@
+FROM docker.io/library/ubuntu:22.04
+RUN apt update && apt install -y apache2 libapache2-mod-auth-openidc && apt clean
+RUN a2enmod auth_openidc proxy_http rewrite headers
+COPY mod_auth_openidc_keycloak.conf /etc/apache2/sites-enabled/mod_auth_openidc_keycloak.conf
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
+STOPSIGNAL SIGKILL
+ENTRYPOINT tail -f -s 0.1 /var/log/apache2/*.log & /usr/sbin/apachectl -D FOREGROUND

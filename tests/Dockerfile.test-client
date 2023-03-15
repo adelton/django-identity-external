@@ -1,0 +1,4 @@
+FROM docker.io/library/ubuntu:22.04
+RUN apt update -y && apt install -y libwww-mechanize-perl && apt clean
+COPY test.pl /
+STOPSIGNAL SIGKILL

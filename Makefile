@@ -2,7 +2,7 @@
 build:
 	rm -rf tests/identity
 	cp -rp identity tests/
-	docker-compose -p django-identity-external -f tests/podman-compose.yml build
+	docker-compose -p django-identity-external -f tests/podman-compose.yml --profile test build
 
 run:
 	docker-compose -p django-identity-external -f tests/podman-compose.yml up &
@@ -10,6 +10,9 @@ run:
 
 test:
 	tests/test.pl http://www:8080/admin bob 'bobovo heslo' djadmin djnimda david 'davidovo heslo'
+
+test-client-container:
+	docker-compose -p django-identity-external -f tests/podman-compose.yml --profile test run -T test-client
 
 stop:
 	docker-compose -p django-identity-external -f tests/podman-compose.yml down

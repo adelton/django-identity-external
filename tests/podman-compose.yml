@@ -32,3 +32,18 @@ services:
          - admin
          - nimda
          - http://www:8080
+    test-client:
+        build:
+            context: .
+            dockerfile: Dockerfile.test-client
+        profiles:
+        - test
+        command:
+         - /test.pl
+         - http://www:8080/admin
+         - bob
+         - bobovo heslo
+         - djadmin
+         - djnimda
+         - david
+         - davidovo heslo

@@ -18,4 +18,5 @@ jobs:
       - run: sudo apt update && sudo apt install -y libwww-mechanize-perl
       - run: echo '127.0.0.5 www keycloak' | sudo tee -a /etc/hosts
       - run: make test
+      - run: make test-client-container
 

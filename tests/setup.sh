@@ -20,6 +20,7 @@ done
 TOKEN=$( curl -s --fail-with-body -d "grant_type=password&client_id=admin-cli&username=$USERNAME&password=$PASSWORD" $BASE/realms/master/protocol/openid-connect/token | jq -r '.access_token' )
 
 set -e
+set -o pipefail
 test -n "$TOKEN"
 
 declare -a CURL

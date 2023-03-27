@@ -2,6 +2,7 @@
 
 use strict;
 use warnings FATAL => 'all';
+use utf8;
 use open ":std", ":encoding(UTF-8)";
 my $URL = shift;
 my ($USERNAME, $PASSWORD);

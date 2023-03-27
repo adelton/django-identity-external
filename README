@@ -60,6 +60,10 @@ where the REMOTE_USER prefix of these variables can be changed with the
 REMOTE_USER_VAR environment variable, just like with
 identity.external.PersistentRemoteUserMiddlewareVar.
 
+The values are used verbating, as provided by Django. When
+REMOTE_USER_VALUES_ENCODING environment variable is set to base64url,
+the values are expected to be in this format and decoded to Unicode.
+
 Users that are in external group admins (and thus get assigned to group
 ext:admins in Django) will also get the is_staff flag set and thus will be
 able to log in to the admin application.

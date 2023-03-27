@@ -9,11 +9,18 @@ from django.contrib.auth.backends import RemoteUserBackend
 from django.contrib.auth.middleware import RemoteUserMiddleware
 
 from django.contrib.auth.middleware import PersistentRemoteUserMiddleware
+import base64
 
 class PersistentRemoteUserMiddlewareVar(PersistentRemoteUserMiddleware):
 	def process_request(self, request):
 		self.header = request.META.get("REMOTE_USER_VAR", "REMOTE_USER")
 		return super(PersistentRemoteUserMiddleware, self).process_request(request)
+
+def _decode_value(request, value):
+	if value is not None \
+		and request.META.get("REMOTE_USER_VALUES_ENCODING", "none") == "base64url":
+		return base64.urlsafe_b64decode(value + "==").decode()
+	return value
 
 class RemoteUserAttrMiddleware(RemoteUserMiddleware):
 	group_prefix = 'ext:'
@@ -29,9 +36,9 @@ class RemoteUserAttrMiddleware(RemoteUserMiddleware):
 			for i in range(1, int(ext_group_count) + 1):
 				g = request.META.get(self.header + "_GROUP_" + str(i), None)
 				if g is not None:
-					ext_groups.append(g)
+					ext_groups.append(_decode_value(request, g))
 		elif ext_groups_singlestring is not None:
-			ext_groups = ext_groups_singlestring.split(':')
+			ext_groups = _decode_value(request, ext_groups_singlestring).split(':')
 		else:
 			return
 
@@ -65,15 +72,15 @@ class RemoteUserAttrMiddleware(RemoteUserMiddleware):
 				need_save = False
 				email = request.META.get(self.header + "_EMAIL", None)
 				if email is not None:
-					user.email = email
+					user.email = _decode_value(request, email)
 					need_save = True
 				firstname = request.META.get(self.header + "_FIRSTNAME", None)
 				if firstname is not None:
-					user.first_name = firstname
+					user.first_name = _decode_value(request, firstname)
 					need_save = True
 				lastname = request.META.get(self.header + "_LASTNAME", None)
 				if lastname is not None:
-					user.last_name = lastname
+					user.last_name = _decode_value(request, lastname)
 					need_save = True
 				if need_save or request.META.get(self.header + "_GROUP_N", None) or request.META.get(self.header + "_GROUPS", None):
 					self.update_user_groups(request)

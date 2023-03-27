@@ -1,7 +1,6 @@
-FROM docker.io/library/ubuntu:22.04
-RUN apt update && apt install -y apache2 libapache2-mod-auth-openidc && apt clean
-RUN a2enmod auth_openidc proxy_http rewrite headers
-COPY mod_auth_openidc_keycloak.conf /etc/apache2/sites-enabled/mod_auth_openidc_keycloak.conf
-RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
+FROM registry.fedoraproject.org/fedora
+RUN dnf install -y httpd mod_auth_openidc && dnf clean all
+COPY mod_auth_openidc_keycloak.conf /etc/httpd/conf.d/mod_auth_openidc_keycloak.conf
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
 STOPSIGNAL SIGKILL
-ENTRYPOINT tail -f -s 0.1 /var/log/apache2/*.log & /usr/sbin/apachectl -D FOREGROUND
+ENTRYPOINT tail -f -s 0.5 /var/log/httpd/access_log /var/log/httpd/error_log & /usr/sbin/httpd -D FOREGROUND

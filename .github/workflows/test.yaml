@@ -12,7 +12,7 @@ jobs:
   docker-compose-keycloak:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: make build
       - run: make run
       - run: sudo apt update && sudo apt install -y libwww-mechanize-perl

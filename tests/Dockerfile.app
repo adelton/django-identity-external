@@ -1,5 +1,5 @@
-FROM docker.io/library/ubuntu:22.04
-RUN apt update -y && apt install -y python3-django && apt clean
+FROM registry.fedoraproject.org/fedora
+RUN dnf install -y python3-django && dnf clean all
 RUN mkdir -p /var/www/django
 WORKDIR /var/www/django
 RUN django-admin startproject project

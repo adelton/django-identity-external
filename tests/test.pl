@@ -59,7 +59,12 @@ print "  but at least they are let into the /admin/ application\n";
 $dmech->content() =~ /You don.t have permission to view or edit anything/ or die;
 
 print "Test logout\n";
-$dmech->follow_link(text => "Log out");
+if ($dmech->find_link(text => "Log out")) {
+	$dmech->follow_link(text => "Log out");
+} else {
+	$dmech->form_id('logout-form');
+	$dmech->submit();
+}
 $dmech->content() =~ /Logged out/ or die;
 
 print "And login again\n";
@@ -83,7 +88,12 @@ $mech->content() =~ m#<option value="1" selected>ext:admins</option># or die;
 $mech->content() =~ m#<option value="2" selected>ext:group-2</option># or die;
 $mech->content() =~ m#<option value="3">ext:group-3</option># or die;
 
-$mech->follow_link(text => "Log out");
+if ($mech->find_link(text => "Log out")) {
+	$mech->follow_link(text => "Log out");
+} else {
+	$mech->form_id('logout-form');
+	$mech->submit();
+}
 
 $mech->content() =~ /Logged out/ or die;
 

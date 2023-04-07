@@ -67,6 +67,10 @@ if ($dmech->find_link(text => "Log out")) {
 }
 $dmech->content() =~ /Logged out/ or die;
 
+print "Follow the iframe to also log out from the IdP\n";
+$dmech->follow_link(url_regex => qr/^\/openidc-redirect-uri\?logout=/);
+$dmech->back();
+
 print "And login again\n";
 $dmech->follow_link(text => "Home");
 

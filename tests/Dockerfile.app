@@ -10,7 +10,7 @@ ADD identity /var/www/django/project/identity
 RUN sed -i "/django.contrib.auth.middleware.AuthenticationMiddleware/a 'identity.external.PersistentRemoteUserMiddlewareVar', 'identity.external.RemoteUserAttrMiddleware'," project/settings.py
 RUN sed -i "/^MIDDLEWARE =/iAUTHENTICATION_BACKENDS = [ 'django.contrib.auth.backends.RemoteUserBackend', 'django.contrib.auth.backends.ModelBackend', ]" project/settings.py
 RUN echo 'ALLOWED_HOSTS = [ "*" ]' >> project/settings.py
-RUN echo 'CSRF_TRUSTED_ORIGINS = [ "http://www:8080" ]' >> project/settings.py
+RUN echo 'CSRF_TRUSTED_ORIGINS = [ "http://www:8079", "http://www:8080" ]' >> project/settings.py
 
 RUN python3 manage.py migrate
 RUN echo "from django.contrib.auth.models import User; User.objects.create_superuser('djadmin', 'admin@example.test', 'djnimda');" | python3 manage.py shell

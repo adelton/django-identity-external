@@ -1,8 +1,9 @@
 FROM registry.fedoraproject.org/fedora
-RUN dnf install -y httpd mod_auth_openidc && dnf clean all
-COPY mod_auth_openidc_keycloak.conf /etc/httpd/conf.d/mod_auth_openidc_keycloak.conf
-RUN sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
-RUN mkdir -p /var/log/httpd
+RUN dnf install -y httpd mod_auth_openidc mod_auth_mellon && dnf clean all
+COPY mod_auth_openidc_keycloak.conf mod_auth_mellon_keycloak.conf /etc/httpd/conf.d/
+RUN sed -i -e '/^Listen/aListen 8079' -e 's/^Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
+RUN mkdir -p /var/log/httpd /etc/httpd/saml2
 RUN touch /var/log/httpd/access_log /var/log/httpd/error_log
+RUN touch /etc/httpd/saml2/mellon_metadata.xml /etc/httpd/saml2/mellon.key /etc/httpd/saml2/mellon.pem /etc/httpd/saml2/idp_metadata.xml
 STOPSIGNAL SIGKILL
-ENTRYPOINT tail -f /var/log/httpd/access_log /var/log/httpd/error_log & /usr/sbin/httpd -D FOREGROUND
+ENTRYPOINT tail -f /var/log/httpd/access_log /var/log/httpd/error_log & while ! test -s /etc/httpd/saml2/mellon_metadata.xml ; do sleep 3 ; done && /usr/sbin/httpd -D FOREGROUND

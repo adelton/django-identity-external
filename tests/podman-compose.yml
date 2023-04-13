@@ -6,6 +6,9 @@ services:
             dockerfile: Dockerfile.httpd
         ports:
          - 8080:8080
+         - 8079:8079
+        volumes:
+         - saml-config:/etc/httpd/saml2:z
     keycloak:
         image: quay.io/keycloak/keycloak
         environment:
@@ -32,7 +35,25 @@ services:
          - admin
          - nimda
          - http://www:8080
-    test-client:
+         - http://www:8079
+        volumes:
+         - saml-config:/etc/httpd/saml2:z
+    test-client-saml:
+        build:
+            context: .
+            dockerfile: Dockerfile.test-client
+        profiles:
+        - test
+        command:
+         - /test.pl
+         - http://www:8079/admin
+         - bob
+         - bobovo heslo
+         - djadmin
+         - djnimda
+         - david
+         - davidovo heslo
+    test-client-openidc:
         build:
             context: .
             dockerfile: Dockerfile.test-client
@@ -47,3 +68,6 @@ services:
          - djnimda
          - david
          - davidovo heslo
+
+volumes:
+  saml-config:

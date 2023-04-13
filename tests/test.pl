@@ -22,6 +22,9 @@ $mech->get($URL);
 $mech->set_visible($USERNAME, $PASSWORD);
 $mech->submit();
 
+if ($mech->content() =~ /JavaScript is disabled\. We strongly recommend to enable it\./) {
+	$mech->submit();
+}
 print $mech->status(), "\n";
 # $mech->dump_headers();
 $mech->content() =~ /You are authenticated as bob, but are not authorized to access this page/ or die;
@@ -58,6 +61,9 @@ print "Will log in with ext:admin [$USERNAME/$PASSWORD]\n";
 
 $dmech->set_visible($USERNAME, $PASSWORD);
 $dmech->submit();
+if ($dmech->content() =~ /JavaScript is disabled\. We strongly recommend to enable it\./) {
+	$dmech->submit();
+}
 
 print "Users with the staff flag still do not have any default permissions\n";
 print "  but at least they are let into the /admin/ application\n";
@@ -73,7 +79,7 @@ if ($dmech->find_link(text => "Log out")) {
 $dmech->content() =~ /Logged out/ or die;
 
 print "Follow the iframe to also log out from the IdP\n";
-$dmech->follow_link(url_regex => qr/^\/openidc-redirect-uri\?logout=/);
+$dmech->follow_link(url_regex => qr/^\/(saml-redirect-uri\/logout|openidc-redirect-uri\?logout=)/);
 $dmech->back();
 
 print "And login again\n";
@@ -82,6 +88,9 @@ $dmech->follow_link(text => "Home");
 $dmech->set_visible($USERNAME, $PASSWORD);
 $dmech->submit();
 
+if ($dmech->content() =~ /JavaScript is disabled\. We strongly recommend to enable it\./) {
+	$dmech->submit();
+}
 $dmech->content() =~ /You don.t have permission to view or edit anything/ or die;
 
 

@@ -16,6 +16,7 @@ RUN echo "from django.contrib.auth.models import User; User.objects.create_super
 RUN echo "from django.contrib.auth.models import Group; Group.objects.get_or_create(name='ext:admins');" | python3 manage.py shell
 RUN echo "from django.contrib.auth.models import Group; Group.objects.get_or_create(name='ext:group-2');" | python3 manage.py shell
 RUN echo "from django.contrib.auth.models import Group; Group.objects.get_or_create(name='ext:group-3');" | python3 manage.py shell
+RUN cp -p /var/www/django/project/db.sqlite3 /var/www/django/project/db.sqlite3.initial
 ENV REMOTE_USER_VAR HTTP_X_REMOTE_USER
 ENV REMOTE_USER_VALUES_ENCODING base64url
 ENTRYPOINT [ "python3", "manage.py", "runserver", "app:8081" ]

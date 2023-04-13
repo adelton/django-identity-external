@@ -36,6 +36,7 @@ $mech->follow_link(text => "Users");
 
 $mech->content() =~ /\b$USERNAME\b.*field-is_staff.*alt=.True/ or die;
 $mech->content() =~ /\bbob\b.*robert\.chase\@example\.test.*Robert.*Chase.*field-is_staff.*alt=.False/ or die;
+$mech->content() =~ /\bdavid\b/ and die "The accounts should have gotten created with the first logon";
 
 $mech->follow_link(text => "bob");
 

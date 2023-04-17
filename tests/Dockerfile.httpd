@@ -2,5 +2,7 @@ FROM registry.fedoraproject.org/fedora
 RUN dnf install -y httpd mod_auth_openidc && dnf clean all
 COPY mod_auth_openidc_keycloak.conf /etc/httpd/conf.d/mod_auth_openidc_keycloak.conf
 RUN sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
+RUN mkdir -p /var/log/httpd
+RUN touch /var/log/httpd/access_log /var/log/httpd/error_log
 STOPSIGNAL SIGKILL
-ENTRYPOINT tail -f -s 0.5 /var/log/httpd/access_log /var/log/httpd/error_log & /usr/sbin/httpd -D FOREGROUND
+ENTRYPOINT tail -f /var/log/httpd/access_log /var/log/httpd/error_log & /usr/sbin/httpd -D FOREGROUND

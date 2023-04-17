@@ -14,6 +14,9 @@ print "Will test against [$URL] with non-admin [$USERNAME/$PASSWORD]\n";
 use WWW::Mechanize ();
 my $mech = new WWW::Mechanize(autocheck => 1, strict_forms => 1, cookie_jar => {});
 $mech->default_header('Accept' => '*/*');
+my $origin = $URL;
+$origin =~ s#^(.*?//.+?)/.*#$1#;
+$mech->add_header("Origin" => $origin);
 $mech->get($URL);
 
 $mech->set_visible($USERNAME, $PASSWORD);
@@ -47,6 +50,7 @@ $mech->content() =~ m#<option value="3" selected>ext:group-3</option># or die;
 
 my $dmech = new WWW::Mechanize(autocheck => 1, strict_forms => 1, cookie_jar => {});
 $dmech->default_header('Accept' => '*/*');
+$dmech->add_header("Origin" => $origin);
 $dmech->get($URL);
 
 ($USERNAME, $PASSWORD) = (shift, shift);

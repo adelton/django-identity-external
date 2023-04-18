@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: make build
-      - run: sudo apt update && sudo apt install -y libwww-mechanize-perl
+      - run: sudo apt update && sudo apt install -y libwww-mechanize-perl libhttp-cookiejar-perl
       - run: echo '127.0.0.5 www keycloak' | sudo tee -a /etc/hosts
       - run: make run
       - run: make test

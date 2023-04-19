@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
 	name = 'django-identity-external',
-	version = '0.6.1',
+	version = '0.7.1',
 	packages = find_packages(),
 	include_package_data = True,
 	license = 'Apache 2.0 License',
@@ -25,15 +25,13 @@ setup(
 	classifiers = [
 		'Environment :: Web Environment',
 		'Framework :: Django',
-		# New PersistentRemoteUserMiddleware in Django 1.9
-		'Framework :: Django :: 2.0',
+		'Framework :: Django :: 4',
 		'Intended Audience :: Developers',
 		'License :: OSI Approved :: Apache Software License',
 		'Operating System :: OS Independent',
 		'Programming Language :: Python',
 		'Programming Language :: Python :: 3',
-		'Programming Language :: Python :: 3.4',
-		'Programming Language :: Python :: 3.5',
+		'Programming Language :: Python :: 3.11',
 		'Topic :: Internet :: WWW/HTTP',
 		'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
 	],

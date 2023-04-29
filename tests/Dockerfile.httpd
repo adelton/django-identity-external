@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:37
+FROM registry.fedoraproject.org/fedora
 RUN dnf install -y httpd mod_auth_openidc mod_auth_mellon && dnf clean all
 COPY mod_auth_openidc_keycloak.conf mod_auth_mellon_keycloak.conf /etc/httpd/conf.d/
 RUN sed -i -e '/^Listen/aListen 8079' -e 's/^Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf

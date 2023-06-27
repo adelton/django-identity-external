@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora
+FROM registry.fedoraproject.org/fedora:rawhide
 RUN dnf install -y python3-django && dnf clean all
 RUN mkdir -p /var/www/django
 WORKDIR /var/www/django

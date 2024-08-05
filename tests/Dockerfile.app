@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora
+FROM registry.fedoraproject.org/fedora:rawhide
 ARG DJANGO_VERSION
 RUN if test -n "$DJANGO_VERSION" ; then \
 		dnf install -y python3-pip && pip install "Django == $DJANGO_VERSION.*" ; \

@@ -1,4 +1,4 @@
-FROM docker.io/library/ubuntu:22.04
+FROM docker.io/library/ubuntu:24.04
 RUN apt update -y && apt install -y curl jq && apt clean
 COPY setup.sh mellon_sp_metadata.xml /
 STOPSIGNAL SIGKILL

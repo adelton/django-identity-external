@@ -1,15 +1,22 @@
 
+ifndef DOCKER_COMPOSE
+	DOCKER_COMPOSE := $(shell command -v docker-compose 2> /dev/null)
+endif
+ifndef DOCKER_COMPOSE
+	DOCKER_COMPOSE := docker compose
+endif
+
 build:
 	rm -rf tests/identity
 	cp -rp identity tests/
-	docker-compose -p django-identity-external -f tests/podman-compose.yml --profile test build
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test build
 
 run:
-	docker-compose -p django-identity-external -f tests/podman-compose.yml up &
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml up &
 	for i in $$( seq 1 10 ) ; do docker logs django-identity-external_setup_1 2>&1 | grep '^OK /setup' && break ; sleep 5 ; done
 
 restart-app:
-	docker-compose -p django-identity-external -f tests/podman-compose.yml exec -T app cp /var/www/django/project/db.sqlite3.initial /var/www/django/project/db.sqlite3
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml exec -T app cp /var/www/django/project/db.sqlite3.initial /var/www/django/project/db.sqlite3
 
 test:
 	tests/test.pl http://www:8079/admin bob 'bobovo heslo' djadmin djnimda david 'davidovo heslo'
@@ -17,12 +24,12 @@ test:
 	tests/test.pl http://www:8080/admin bob 'bobovo heslo' djadmin djnimda david 'davidovo heslo'
 
 test-client-container:
-	docker-compose -p django-identity-external -f tests/podman-compose.yml --profile test run -T test-client-saml
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test run -T test-client-saml
 	$(MAKE) restart-app
-	docker-compose -p django-identity-external -f tests/podman-compose.yml --profile test run -T test-client-openidc
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test run -T test-client-openidc
 
 stop:
-	docker-compose -p django-identity-external -f tests/podman-compose.yml down -v
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml down -v
 
 .PHONY: build run restart-app test test-client-container stop
 

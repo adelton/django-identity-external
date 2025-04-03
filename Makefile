@@ -9,7 +9,7 @@ endif
 build:
 	rm -rf tests/identity
 	cp -rp identity tests/
-	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test build
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test build --build-arg DJANGO_VERSION=$(DJANGO_VERSION)
 
 run:
 	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml up -d

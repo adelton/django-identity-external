@@ -11,9 +11,16 @@ on:
 jobs:
   docker-compose-keycloak:
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        django_version:
+          -
+          - 4.2
+          - 5.1
     steps:
       - uses: actions/checkout@v4
-      - run: make build
+      - run: make build DJANGO_VERSION=${{ matrix.django_version }}
       - run: sudo apt update && sudo apt install -y libwww-mechanize-perl libhttp-cookiejar-perl
       - run: echo '127.0.0.5 www keycloak' | sudo tee -a /etc/hosts
       - run: make run

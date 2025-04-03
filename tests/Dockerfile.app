@@ -1,5 +1,11 @@
 FROM registry.fedoraproject.org/fedora
-RUN dnf install -y python3-django && dnf clean all
+ARG DJANGO_VERSION
+RUN if test -n "$DJANGO_VERSION" ; then \
+		dnf install -y python3-pip && pip install "Django == $DJANGO_VERSION.*" ; \
+	else \
+		dnf install -y python3-django ; \
+	fi \
+	&& dnf clean all
 RUN mkdir -p /var/www/django
 WORKDIR /var/www/django
 RUN django-admin startproject project

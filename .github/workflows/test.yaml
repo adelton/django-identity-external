@@ -22,8 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          sudo apt update
-          sudo apt install podman-compose
+          sudo pip3 install podman-compose
+          podman-compose version
         if: matrix.docker_compose == 'podman-compose'
       - run: make build
       - run: sudo apt update && sudo apt install -y libwww-mechanize-perl libhttp-cookiejar-perl

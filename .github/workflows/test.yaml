@@ -11,8 +11,20 @@ on:
 jobs:
   docker-compose-keycloak:
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        docker_compose:
+          -
+          - podman-compose
+    env:
+      DOCKER_COMPOSE: ${{ matrix.docker_compose }}
     steps:
       - uses: actions/checkout@v4
+      - run: |
+          sudo apt update
+          sudo apt install podman-compose
+        if: matrix.docker_compose == 'podman-compose'
       - run: make build
       - run: sudo apt update && sudo apt install -y libwww-mechanize-perl libhttp-cookiejar-perl
       - run: echo '127.0.0.5 www keycloak' | sudo tee -a /etc/hosts

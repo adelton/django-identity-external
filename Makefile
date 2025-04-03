@@ -12,8 +12,9 @@ build:
 	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test build
 
 run:
-	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml up &
-	for i in $$( seq 1 10 ) ; do docker logs django-identity-external_setup_1 2>&1 | grep '^OK /setup' && break ; sleep 5 ; done
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml up -d
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml logs -f &
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml wait setup
 
 restart-app:
 	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml exec -T app cp /var/www/django/project/db.sqlite3.initial /var/www/django/project/db.sqlite3

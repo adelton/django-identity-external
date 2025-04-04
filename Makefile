@@ -25,9 +25,9 @@ test:
 	tests/test.pl http://www:8080/admin bob 'bobovo heslo' djadmin djnimda david 'davidovo heslo'
 
 test-client-container:
-	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test run -T test-client-saml
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test run -T --rm test-client-saml
 	$(MAKE) restart-app
-	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test run -T test-client-openidc
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml --profile test run -T --rm test-client-openidc
 
 stop:
 	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml down -v

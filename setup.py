@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
 	name = 'django-identity-external',
-	version = '0.7.1',
+	version = '0.8.1',
 	packages = find_packages(),
 	include_package_data = True,
 	license = 'Apache 2.0 License',
@@ -20,7 +20,7 @@ setup(
 	author = 'Jan Pazdziora',
 	author_email = 'jan.pazdziora@django.adelton.com',
 	install_requires = [
-		'django>=2.0',
+		'django>=4.1',
 	],
 	classifiers = [
 		'Environment :: Web Environment',

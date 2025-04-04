@@ -31,6 +31,7 @@ test-client-container:
 
 stop:
 	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml down -v
+	$(DOCKER_COMPOSE) -p django-identity-external -f tests/podman-compose.yml rm -vf
 
 .PHONY: build run restart-app test test-client-container stop
 

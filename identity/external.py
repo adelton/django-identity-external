@@ -1,5 +1,5 @@
 
-# Copyright 2016--2023 Jan Pazdziora
+# Copyright 2016--2025 Jan Pazdziora
 #
 # Licensed under the Apache License, Version 2.0 (the "License").
 
@@ -12,9 +12,9 @@ from django.contrib.auth.middleware import PersistentRemoteUserMiddleware
 import base64
 
 class PersistentRemoteUserMiddlewareVar(PersistentRemoteUserMiddleware):
-	def process_request(self, request):
+	def __call__(self, request):
 		self.header = request.META.get("REMOTE_USER_VAR", "REMOTE_USER")
-		return super(PersistentRemoteUserMiddleware, self).process_request(request)
+		return super().__call__(request)
 
 def _decode_value(request, value):
 	if value is not None \
@@ -60,7 +60,7 @@ class RemoteUserAttrMiddleware(RemoteUserMiddleware):
 		for g in current_groups.values():
 			user.groups.remove(g.id)
 
-	def process_request(self, request):
+	def __call__(self, request):
 		self.header = request.META.get("REMOTE_USER_VAR", "REMOTE_USER")
 
 		if hasattr(request, 'user') and request.user.is_authenticated and \
@@ -85,3 +85,5 @@ class RemoteUserAttrMiddleware(RemoteUserMiddleware):
 				if need_save or request.META.get(self.header + "_GROUP_N", None) or request.META.get(self.header + "_GROUPS", None):
 					self.update_user_groups(request)
 					user.save()
+
+		return self.get_response(request)

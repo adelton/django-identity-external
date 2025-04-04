@@ -1,0 +1,16 @@
+name: Check that we know about latest Django release
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '21 6 * * 5'
+
+jobs:
+  django-version-check:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: |
+          curl -s https://www.djangoproject.com/ > djangoproject.html
+          grep 'Download.*latest release' djangoproject.html
+          grep 'Download.*latest release: 5\.2\b' djangoproject.html

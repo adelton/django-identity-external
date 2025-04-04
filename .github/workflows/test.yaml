@@ -17,7 +17,7 @@ jobs:
         django_version:
           -
           - 4.2
-          - 5.1
+          - 5.2
     steps:
       - uses: actions/checkout@v4
       - run: make build DJANGO_VERSION=${{ matrix.django_version }}

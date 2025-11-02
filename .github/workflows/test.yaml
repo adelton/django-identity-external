@@ -16,7 +16,6 @@ jobs:
       matrix:
         django_version:
           -
-          - 4.2
           - 5.2
     steps:
       - uses: actions/checkout@v4
